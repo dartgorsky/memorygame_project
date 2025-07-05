@@ -1,0 +1,35 @@
+# Entorno virtual
+venv/
+
+# Archivos Python compilados
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos SQLite (si usas sqlite)
+*.sqlite3
+
+# Configuración sensible
+.env
+
+# Docker
+*.log
+docker-compose.override.yml
+
+# Django
+*.log
+*.pot
+*.py[cod]
+*.mo
+*.sqlite3
+media/
+staticfiles/
+
+# IDEs y editores
+.vscode/
+.idea/
+*.swp
+
+# Otros
+*.DS_Store
