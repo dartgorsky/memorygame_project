@@ -19,8 +19,13 @@ def verificar_emparejamiento(carta1: Card, carta2: Card) -> bool:
 def registrar_intento(game: Game, carta1: Card, carta2: Card):
     game.attempts += 1
     if verificar_emparejamiento(carta1, carta2):
-        game.score += 1  
+        game.score += 1
+        carta1.matched = True
+        carta2.matched = True
+        carta1.save()
+        carta2.save()
     game.save()
+    revisar_estado_juego(game)
 
 def revisar_estado_juego(game: Game):
     total_pares = game.cards.count() // 2
@@ -30,6 +35,8 @@ def revisar_estado_juego(game: Game):
     elif game.attempts >= total_pares * 3:  
         game.status = 'L'
         game.end_time = now()
+    else:
+        game.status='P'
     game.save()
 
 
