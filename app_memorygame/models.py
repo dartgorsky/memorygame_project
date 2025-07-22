@@ -31,6 +31,7 @@ class Game(models.Model):
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     cards = models.ManyToManyField(Card, blank=True)
     level = models.CharField(max_length=1, choices=LEVEL_CHOICES, default='B') 
+    max_attempts = models.IntegerField(default=18)
 
     def __str__(self):
         return f"Game #{self.id} - User: {self.user.username}"
