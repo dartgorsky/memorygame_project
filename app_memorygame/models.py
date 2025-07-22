@@ -17,6 +17,12 @@ class Game(models.Model):
         ('P', 'Playing'),
     ]
 
+    LEVEL_CHOICES = [
+        ('B', 'Básico'),
+        ('M', 'Medio'),
+        ('A', 'Avanzado'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='games')
     start_time = models.DateTimeField(auto_now_add=True)
     end_time = models.DateTimeField(null=True, blank=True)
@@ -24,6 +30,7 @@ class Game(models.Model):
     attempts = models.IntegerField(default=0)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
     cards = models.ManyToManyField(Card, blank=True)
+    level = models.CharField(max_length=1, choices=LEVEL_CHOICES, default='B') 
 
     def __str__(self):
         return f"Game #{self.id} - User: {self.user.username}"
