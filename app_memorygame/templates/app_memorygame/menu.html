@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Menú Principal - MemoryGame</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- CSS personalizado -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+  <!-- Contenedor principal -->
+  <div class="container py-5">
+    
+    <!-- Bienvenida -->
+    <div class="text-center mb-4">
+      <h2>¡Bienvenido al MemoryGame!</h2>
+      <p class="lead">Selecciona una opción para continuar</p>
+    </div>
+
+    <!-- Menú con botones -->
+    <div class="row justify-content-center g-3">
+
+      <!-- Perfil -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <a href="#" class="btn btn-outline-primary w-100 p-3">
+          Perfil de Usuario
+        </a>
+      </div>
+
+      <!-- Estadísticas -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <a href="#" class="btn btn-outline-success w-100 p-3">
+          Estadísticas de Juego
+        </a>
+      </div>
+
+      <!-- Selección de Nivel -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <a href="{% url 'tablero' nivel='basico' %}" class="btn btn-outline-warning w-100 p-3">
+          Nivel Básico
+        </a>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <a href="{% url 'tablero' nivel='medio' %}" class="btn btn-outline-warning w-100 p-3">
+          Nivel Medio
+        </a>
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-4">
+        <a href="{% url 'tablero' nivel='avanzado' %}" class="btn btn-outline-warning w-100 p-3">
+          Nivel Avanzado
+        </a>
+      </div>
+
+      <!-- Logout -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <a href="{% url 'logout' %}" class="btn btn-outline-danger w-100 p-3">
+          Cerrar Sesión
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (opcional) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

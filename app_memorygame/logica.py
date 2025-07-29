@@ -50,14 +50,14 @@ def verificar_emparejamiento(carta1, carta2):
 # Llama a revisar_estado_juego para validar si ganó o perdió
 # --------------------------------------------------
 def registrar_intento(juego, carta1, carta2):
-    juego.attempts+= 1
+    if juego.status != 'P':
+        return  # No se puede registrar si ya ganó o perdió
+
+    juego.attempts += 1
 
     if verificar_emparejamiento(carta1, carta2):
-        juego.score+= 1
-        carta1.matched= True
-        carta2.matched= True
-        carta1.save()
-        carta2.save()
+        juego.score += 1
+        # Ya no guardamos "matched" porque no existe ese campo
 
     juego.save()
     revisar_estado_juego(juego)

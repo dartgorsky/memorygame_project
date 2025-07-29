@@ -1,83 +1,72 @@
-
-:root {
-  --card-w: 120px;
-  --card-h: 120px;
-  --card-radius: 10px;
-  --card-border: 3px;
-  --card-blue: #0d6efd;
+/* Fondo con un degradado suave que no distrae al usuario */
+body {
+  background: linear-gradient(to bottom right, #f0f4f8, #d9e2ec);
+  font-family: Arial, sans-serif; /* Fuente simple y legible */
 }
 
-.cards-container {
+/* Estilo para las tarjetas (como el formulario) */
+.card {
+  border-radius: 15px; /* Bordes redondeados */
+  border: none;        /* Quita el borde por defecto */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  background-color: #ffffff; /* Fondo blanco para buena lectura */
+}
+
+/* Botón principal con estilo personalizado */
+.btn-primary {
+  background-color: #0d6efd; /* Azul Bootstrap */
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+/* Efecto al pasar el mouse sobre el botón */
+.btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+/* Texto de error */
+.alert-danger {
+  font-size: 0.9rem;
+  padding: 8px;
+}
+
+/* Margen inferior para separar campos */
+.mb-3 {
+  margin-bottom: 1rem;
+}
+
+/* Estilo general para el cuerpo */
+body {
+  background-color: #f8f9fa; /* color gris claro para no cansar la vista */
+  font-family: Arial, sans-serif;
+}
+
+/* Estilo para las cartas (imagen) */
+.carta-frontal {
+  /* Sombra para que la carta destaque */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  /* Borde redondeado */
+  border-radius: 10px;
+  /* Transición suave para efectos futuros */
+  transition: transform 0.3s ease;
+  /* Cursor puntero para indicar que es clickeable */
+  cursor: pointer;
+  /* Tamaño máximo, para mantener uniformidad */
+  max-width: 100px;
+}
+
+/* Efecto hover para dar feedback visual */
+.carta-frontal:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 12px rgba(0,0,0,0.2);
+}
+
+/* Contenedor del tablero (opcional) */
+.tablero {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
   justify-content: center;
-  padding: 20px;
+  gap: 15px; /* espacio entre cartas */
+  margin-top: 20px;
 }
 
-.memory-card {
-  position: relative;
-  width: var(--card-w);
-  height: var(--card-h);
-  transform-style: preserve-3d;
-  transition: transform 0.6s, box-shadow 0.3s;
-  border-radius: var(--card-radius);
-  cursor: pointer;
-}
-
-.memory-card:hover {
-  box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
-  transform: scale(1.05);
-}
-
-.memory-card .back-face{
-  position:absolute; inset:0;
-  border-radius: var(--card-radius);
-  border: var(--card-border) solid var(--card-blue); 
-  background-color:#fff;   
-  background-image:
-    linear-gradient( 45deg, var(--card-blue) 25%, transparent 25%),
-    linear-gradient(-45deg, var(--card-blue) 25%, transparent 25%),
-    linear-gradient( 45deg, transparent 75%, var(--card-blue) 75%),
-    linear-gradient(-45deg, transparent 75%, var(--card-blue) 75%);
-  background-size: 20px 20px;   
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-  
-  backface-visibility:hidden;
-}
-
-.memory-card .front-face {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 5rem;
-  border-radius: var(--card-radius);
-  backface-visibility: hidden;
-  transform: rotateY(180deg);
-}
-
-.memory-card.tipo-1 .front-face {
-  background: #ffffff;
-  border: var(--card-border) solid var(--card-blue);
-}
-
-
-.memory-card.tipo-3 {
-  --radius: 20px;
-  --shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-}
-.memory-card.tipo-3 .back-face {
-  background: #6f42c1;
-}
-.memory-card.tipo-3 .front-face {
-  background: #fff;
-}
-
-
-
-/* Estado “girado” que puedes añadir con JS */
-.memory-card.is-flipped {
-  transform: rotateY(180deg);
-}
