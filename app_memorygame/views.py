@@ -18,7 +18,7 @@ def registro_view(request):
             return redirect('menu')
     else:
         form = RegistroForm()
-    return render(request, 'registro.html', {'form': form})
+    return render(request, 'app_memorygame/registro.html', {'form': form})
 
 # Vista de login de usuario
 def login_view(request):
@@ -30,7 +30,7 @@ def login_view(request):
             return redirect('menu')
     else:
         form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'app_memorygame/login.html', {'form': form})
 
 # Vista para cerrar sesión
 def logout_view(request):
@@ -40,7 +40,7 @@ def logout_view(request):
 # Vista del menú principal (después de iniciar sesión)
 @login_required
 def menu_view(request):
-    return render(request, 'menu.html')
+    return render(request, 'app_memorygame/menu.html')
 
 # Vista para seleccionar el nivel y crear partida
 @login_required
@@ -57,7 +57,7 @@ def tablero_view(request, juego_id):
     juego = Game.objects.get(id=juego_id, user=request.user)
     cantidad_pares, vidas = obtener_configuracion(juego.level)
     vidas_restantes = max(vidas - juego.attempts, 0)
-    return render(request, 'tablero.html', {
+    return render(request, 'app_memorygame/tablero.html', {
         'juego': juego,
         'vidas_restantes': vidas_restantes
     })
