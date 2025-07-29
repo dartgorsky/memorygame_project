@@ -7,5 +7,5 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('menu/', views.menu_view, name='menu'),
     path('seleccionar-nivel/', views.seleccionar_nivel_view, name='seleccionar_nivel'),
-    path('tablero/<int:juego_id>/', views.tablero_view, name='tablero'),
+    path('tablero/<str:nivel>/', views.tablero_view, name='tablero'),
 ]
