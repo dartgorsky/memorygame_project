@@ -38,13 +38,13 @@
             <!-- Campo para el nombre de usuario -->
             <div class="mb-3">
                 {{ form.username.label_tag }} <!-- Etiqueta: Nombre de usuario -->
-                {{ form.username|add_class:"form-control" }} <!-- Campo de entrada con estilo de Bootstrap -->
+                {{ form.username }} <!-- Campo de entrada con estilo de Bootstrap -->
             </div>
 
             <!-- Campo para la contraseña -->
             <div class="mb-3">
                 {{ form.password.label_tag }}
-                {{ form.password|add_class:"form-control" }}
+                {{ form.password }}
             </div>
 
             <!-- Botón para enviar el formulario -->
