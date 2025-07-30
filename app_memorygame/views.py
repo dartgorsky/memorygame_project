@@ -53,13 +53,21 @@ def seleccionar_nivel_view(request):
 
 # Vista para mostrar el tablero
 @login_required
-def tablero_view(request, juego_id):
-    juego = Game.objects.get(id=juego_id, user=request.user)
+def tablero_view(request, nivel):  # nivel = 'B', 'M' o 'A'
+    juego = Game.objects.filter(user=request.user, level=nivel).order_by('-id').first()
+    
+    if not juego:
+        return render(request, 'app_memorygame/error.html', {
+            'mensaje': 'No se encontró una partida para este nivel.'
+        })
+
     cantidad_pares, vidas = obtener_configuracion(juego.level)
     vidas_restantes = max(vidas - juego.attempts, 0)
+
     return render(request, 'app_memorygame/tablero.html', {
         'juego': juego,
         'vidas_restantes': vidas_restantes
     })
+
 
 
