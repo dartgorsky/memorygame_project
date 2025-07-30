@@ -14,7 +14,7 @@
   <div class="container py-4">
 
     <!-- Título del juego -->
-    <h2 class="text-center mb-4">Juego de Memoria - Nivel {{ juego.level|default:"Básico" }}</h2>
+    <h2 class="text-center mb-4">MEMORY GAME- NIVEL {{ juego.level|default:"Básico" }}</h2>
 
     <!-- Información del usuario y estadísticas básicas -->
     <div class="mb-3 d-flex justify-content-between">
@@ -31,7 +31,7 @@
     <!-- Tablero de cartas -->
     <div class="row row-cols-3 row-cols-md-4 row-cols-lg-6 g-3 justify-content-center">
 
-      {% for carta in juego.cards.all %}
+      {% for carta in cartas %}
         <div class="col text-center">
           <!-- Cartas visibles de frente, el volteo se hará con JavaScript -->
           <img src="{{ carta.image_url }}" alt="Carta {{ carta.name }}" class="img-fluid carta-frontal" style="cursor:pointer; border-radius: 10px; max-width: 100px;">

@@ -1,5 +1,5 @@
-# app_memorygame/views.py
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .forms import RegistroForm, LoginForm
@@ -7,6 +7,7 @@ from .logica import iniciar_partida
 from .models import Game
 from django.utils.timezone import now
 from .logica import obtener_configuracion
+import random
 
 # Vista de registro de usuario
 def registro_view(request):
@@ -42,32 +43,35 @@ def logout_view(request):
 def menu_view(request):
     return render(request, 'app_memorygame/menu.html')
 
-# Vista para seleccionar el nivel y crear partida
 @login_required
 def seleccionar_nivel_view(request):
     if request.method == 'POST':
-        nivel = request.POST.get('nivel', 'B')
+        nivel = request.POST.get('nivel')  # 'B', 'M' o 'A'
         juego = iniciar_partida(request.user, nivel)
         return redirect('tablero', juego_id=juego.id)
-    return redirect('menu')
+    else:
+        return redirect('menu')
 
-# Vista para mostrar el tablero
 @login_required
-def tablero_view(request, nivel):  # nivel = 'B', 'M' o 'A'
-    juego = Game.objects.filter(user=request.user, level=nivel).order_by('-id').first()
-    
-    if not juego:
-        return render(request, 'app_memorygame/error.html', {
-            'mensaje': 'No se encontró una partida para este nivel.'
-        })
+def tablero_view(request, juego_id):
+    try:
+        juego = Game.objects.get(id=juego_id, user=request.user)
+    except Game.DoesNotExist:
+        return HttpResponse("Juego no encontrado.", status=404)
 
     cantidad_pares, vidas = obtener_configuracion(juego.level)
     vidas_restantes = max(vidas - juego.attempts, 0)
 
+    cartas_unicas = list(juego.cards.all())
+    cartas_para_mostrar = cartas_unicas * 2
+    random.shuffle(cartas_para_mostrar)
+
     return render(request, 'app_memorygame/tablero.html', {
         'juego': juego,
-        'vidas_restantes': vidas_restantes
+        'vidas_restantes': vidas_restantes,
+        'cartas': cartas_para_mostrar,
     })
+
 
 
 

@@ -30,7 +30,7 @@ def iniciar_partida(user, nivel='B'):
 
     # Duplica las cartas para hacer pares y las mezcla
     cartas_para_jugar=seleccionadas*2
-    random.shuffle(cartas_para_jugar)
+    random.shuffle(seleccionadas)
 
     # Crea la partida con el usuario y nivel
     juego=Game.objects.create(user=user, level=nivel)
