@@ -66,10 +66,18 @@ def tablero_view(request, juego_id):
     cartas_para_mostrar = cartas_unicas * 2
     random.shuffle(cartas_para_mostrar)
 
+    tiempos_por_nivel = {
+        'B': 120,  # 2 minutos
+        'M': 240,  # 4 minutos
+        'A': 300,  # 5 minutos
+    }
+    tiempo_total = tiempos_por_nivel.get(juego.level, 120)
+
     return render(request, 'app_memorygame/tablero.html', {
         'juego': juego,
         'vidas_restantes': vidas_restantes,
         'cartas': cartas_para_mostrar,
+        'tiempo_total': tiempo_total,
     })
 
 

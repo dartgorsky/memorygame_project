@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <title>Tablero - MemoryGame</title>
@@ -9,6 +10,7 @@
   <!-- CSS personalizado -->
   <link rel="stylesheet" href="{% static 'app_memorygame/css/style.css' %}">
 </head>
+
 <body>
 
   <div class="container py-4">
@@ -20,24 +22,28 @@
     <div class="mb-3 d-flex justify-content-between">
       <div>
         <strong>Jugador:</strong> {{ request.user.username }}
+        <strong>Tiempo restante:</strong> <span id="timer">{{ tiempo_total }}</span> segundos
       </div>
       <div>
-        <strong>Puntaje:</strong> {{ juego.score }} &nbsp;&nbsp;
-        <strong>Intentos:</strong> {{ juego.attempts }} &nbsp;&nbsp;
-        <strong>Vidas restantes:</strong> {{ vidas_restantes }}
+        <strong>Puntaje:</strong> <span id="puntos">{{ juego.score|default:"0" }}</span> &nbsp;&nbsp;
+        <strong>Intentos:</strong> <span id="intentos">{{ juego.attempts|default:"0" }}</span> &nbsp;&nbsp;
+        <strong>Vidas restantes:</strong> <span id="vidas">{{ vidas_restantes|default:"10" }}</span>
       </div>
     </div>
 
     <!-- Tablero de cartas -->
     <div class="row row-cols-3 row-cols-md-4 row-cols-lg-6 g-3 justify-content-center">
-
       {% for carta in cartas %}
-        <div class="col text-center">
-          <!-- Cartas visibles de frente, el volteo se hará con JavaScript -->
-          <img src="{{ carta.image_url }}" alt="Carta {{ carta.name }}" class="img-fluid carta-frontal" style="cursor:pointer; border-radius: 10px; max-width: 100px;">
+      <div class="col text-center">
+        <div class="memory-card" data-id="{{ carta.value }}">
+          <div class="front-face">
+            <img src="{{ carta.image_url }}" alt="Carta {{ carta.name }}" class="img-fluid"
+              style="border-radius: 10px; max-width: 100px;">
+          </div>
+          <div class="back-face"></div>
         </div>
+      </div>
       {% endfor %}
-
     </div>
 
     <!-- Botón para volver al menú -->
@@ -47,11 +53,30 @@
 
   </div>
 
+  <!-- Modal de pérdida -->
+  <div class="modal fade" id="modalPerdiste" tabindex="-1" aria-labelledby="modalPerdisteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalPerdisteLabel">¡Perdiste!</h5>
+        </div>
+        <div class="modal-body">
+          Se acabó el tiempo o perdiste todas las vidas.
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" id="btnVolverMenu" class="btn btn-primary">Volver al Menú</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Aquí el integrante 5 incluirá el script para la lógica y animaciones -->
-  <script src="{% static 'js/game.js' %}"></script>
+  <!-- Aquí el script para la lógica y animaciones -->
+  <script src="{% static 'app_memorygame/js/juego.js' %}"></script>
 
 </body>
+
 </html>

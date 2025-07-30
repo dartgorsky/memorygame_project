@@ -1,25 +1,32 @@
-/* Fondo con un degradado suave que no distrae al usuario */
+:root {
+  --card-w: 100px;
+  --card-h: 100px;
+  --card-radius: 10px;
+  --card-border: 3px;
+  --card-blue: #0d6efd;
+}
+
+/* Fondo suave y legible */
 body {
   background: linear-gradient(to bottom right, #f0f4f8, #d9e2ec);
-  font-family: Arial, sans-serif; /* Fuente simple y legible */
+  font-family: Arial, sans-serif;
 }
 
-/* Estilo para las tarjetas (como el formulario) */
+/* Tarjetas de formularios (login, registro, etc.) */
 .card {
-  border-radius: 15px; /* Bordes redondeados */
-  border: none;        /* Quita el borde por defecto */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  background-color: #ffffff; /* Fondo blanco para buena lectura */
+  border-radius: 15px;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
 }
 
-/* Botón principal con estilo personalizado */
+/* Botón principal */
 .btn-primary {
-  background-color: #0d6efd; /* Azul Bootstrap */
+  background-color: #0d6efd;
   border: none;
   transition: background-color 0.3s ease;
 }
 
-/* Efecto al pasar el mouse sobre el botón */
 .btn-primary:hover {
   background-color: #0b5ed7;
 }
@@ -30,43 +37,33 @@ body {
   padding: 8px;
 }
 
-/* Margen inferior para separar campos */
+/* Separación entre campos */
 .mb-3 {
   margin-bottom: 1rem;
 }
 
-/* Estilo general para el cuerpo */
-body {
-  background-color: #f8f9fa; /* color gris claro para no cansar la vista */
-  font-family: Arial, sans-serif;
-}
-
-/* Estilo para las cartas (imagen) */
-.carta-frontal {
-  /* Sombra para que la carta destaque */
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  /* Borde redondeado */
-  border-radius: 10px;
-  /* Transición suave para efectos futuros */
-  transition: transform 0.3s ease;
-  /* Cursor puntero para indicar que es clickeable */
-  cursor: pointer;
-  /* Tamaño máximo, para mantener uniformidad */
-  max-width: 100px;
-}
-
-/* Efecto hover para dar feedback visual */
-.carta-frontal:hover {
-  transform: scale(1.1);
-  box-shadow: 0 8px 12px rgba(0,0,0,0.2);
-}
-
-/* Contenedor del tablero (opcional) */
+/* Contenedor del tablero */
 .tablero {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 15px; /* espacio entre cartas */
+  gap: 15px;
   margin-top: 20px;
 }
 
+/* ---- Estilo de las cartas ---- */
+
+.memory-card {
+  width: var(--card-w);
+  height: var(--card-h);
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+  border-radius: var(--card-radius);
+  cursor: pointer;
+}
+
+.memory-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 12px rgb
+}
