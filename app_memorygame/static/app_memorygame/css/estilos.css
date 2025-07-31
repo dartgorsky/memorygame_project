@@ -63,7 +63,44 @@ body {
   cursor: pointer;
 }
 
+/* Hover con sombra */
 .memory-card:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 12px rgb
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Ambas caras de la carta */
+.memory-card .front-face,
+.memory-card .back-face {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--card-radius);
+  position: absolute;
+  backface-visibility: hidden;
+}
+
+/* Cara frontal (imagen) */
+.memory-card .front-face {
+  transform: rotateY(0deg);
+  z-index: 2;
+  background-color: #fff;
+}
+
+
+/* Cara trasera (color azul por defecto) */
+.memory-card .back-face {
+  transform: rotateY(180deg);
+  background-color: var(--card-blue);
+  z-index: 1;
+}
+
+/* Cuando se voltea la carta al hacer match o clic */
+.memory-card.is-flipped {
+  transform: rotateY(180deg);
+}
+
+/* Mostrar todas las cartas al inicio */
+.memory-card.volteada {
+  transform: rotateY(180deg);
 }

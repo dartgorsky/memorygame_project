@@ -25,9 +25,19 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.show();
 
         document.getElementById('btnVolverMenu').addEventListener('click', () => {
-            window.location.href = '/menu';  // Cambia si tu URL es diferente
+            window.location.href = '/menu';
         });
     }
+
+    function mostrarModalVictoria() {
+        const modal = new bootstrap.Modal(document.getElementById('modalVictoria'));
+        modal.show();
+
+        document.getElementById('btnVolverMenuVictoria').addEventListener('click', () => {
+            window.location.href = '/menu';
+        });
+    }
+
 
     function startTimer() {
         timerInterval = setInterval(() => {
@@ -78,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (pairsFound === totalPairs) {
                 clearInterval(timerInterval);
-                setTimeout(() => alert('¡Felicidades! Has ganado el juego.'), 500);
+                setTimeout(() => mostrarModalVictoria(), 500);
             }
 
             resetBoard();
@@ -118,8 +128,41 @@ document.addEventListener('DOMContentLoaded', () => {
         location.reload();
     }
 
-    // Empezar el temporizador
-    startTimer();
+    // Mostrar todas las cartas volteadas durante 5 segundos antes de empezar
+    cards.forEach(card => {
+        card.classList.add('is-flipped');
+    });
+
+    // Desactivar clics hasta que pasen los 5 segundos
+    lockBoard = true;
+
+    setTimeout(() => {
+        // Voltear todas las cartas de nuevo
+        cards.forEach(card => {
+            card.classList.remove('is-flipped');
+        });
+
+        // Activar clics
+        lockBoard = false;
+
+        // Empezar el temporizador
+        startTimer();
+    }, 5000);
+
+    // Mostrar todas las cartas volteadas al inicio durante 5 segundos
+    document.addEventListener('DOMContentLoaded', () => {
+        const todasLasCartas = document.querySelectorAll('.memory-card');
+
+        // Voltea todas temporalmente
+        todasLasCartas.forEach(card => card.classList.add('volteada'));
+
+        // A los 5 segundos, las desvoltea
+        setTimeout(() => {
+            todasLasCartas.forEach(card => card.classList.remove('volteada'));
+            // Aquí ya empieza el juego
+        }, 5000);
+    });
+
 
     // Añadir event listeners
     cards.forEach(card => card.addEventListener('click', flipCard));
