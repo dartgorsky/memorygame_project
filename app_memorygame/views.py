@@ -84,7 +84,7 @@ def tablero_view(request, juego_id):
 
         # Preparar datos para renderizar la plantilla con resultado
         cantidad_pares, max_vidas = obtener_configuracion(juego.level)
-        vidas_restantes = max(max_vidas - juego.attempts, 0)
+        vidas_restantes = max(max_vidas - (juego.attempts - juego.score), 0)
 
         cartas_unicas = list(juego.cards.all())
         cartas_para_mostrar = cartas_unicas * 2
@@ -132,7 +132,9 @@ def perfil_usuario_view(request):
         minutos = total_segundos // 60
         segundos = total_segundos % 60
         juego.duracion_formateada = f"{minutos}m {segundos}s"
-        juego.vidas_restantes = max(juego.max_attempts - juego.attempts, 0)
+        cantidad_pares, max_vidas = obtener_configuracion(juego.level)
+        juego.vidas_restantes = max(max_vidas - (juego.attempts - juego.score), 0)
+
 
     # Calcular tasa de éxito solo si hay partidas
     tasa_exito = None
@@ -174,7 +176,8 @@ def ranking_view(request):
             duracion_segundos = int(juego.duracion_tiempo.total_seconds()) if getattr(juego, 'duracion_tiempo', None) else 0
             juego.duracion_segundos = duracion_segundos
             # vidas restantes calculadas aquí
-            juego.vidas_restantes = max(juego.max_attempts - juego.attempts, 0)
+            cantidad_pares, max_vidas = obtener_configuracion(juego.level)
+            juego.vidas_restantes = max(max_vidas - (juego.attempts - juego.score), 0)
             partidas.append(juego)
 
         ranking[nivel_nombre] = partidas

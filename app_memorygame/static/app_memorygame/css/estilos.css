@@ -10,8 +10,11 @@ root {
 body {
   min-height: 100vh;
   margin: 0;
-  background: radial-gradient(circle at 30% 30%, #2f3e72 0%, #1f2a44 70%) fixed;
-  color: #eef3fa;
+  background:
+    radial-gradient(circle at 25% 30%, rgba(255, 255, 255, 0.03), transparent 60%),
+    linear-gradient(135deg, #0f2f44 0%, #1f4f63 50%, #22604f 100%);
+  background-blend-mode: overlay;
+  color: #ffffff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -61,6 +64,7 @@ body {
   padding: 1rem;
   background: #fff;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  color: #000000;
 }
 
 .small-label {
