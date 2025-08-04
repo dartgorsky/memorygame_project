@@ -1,4 +1,4 @@
-:root {
+root {
   --card-w: 100px;
   --card-h: 100px;
   --card-radius: 10px;
@@ -9,10 +9,9 @@
 /* Fondo suave y legible */
 body {
   background: linear-gradient(to bottom right, #f0f4f8, #d9e2ec);
-  font-family: Arial, sans-serif;
 }
 
-/* Tarjetas de formularios (login, registro, etc.) */
+/* Tarjetas de formularios (login, registro, etc.)  */
 .card {
   border-radius: 15px;
   border: none;
@@ -20,7 +19,7 @@ body {
   background-color: #ffffff;
 }
 
-/* Botón principal */
+/* Botón principal  */
 .btn-primary {
   background-color: #0d6efd;
   border: none;
@@ -31,7 +30,7 @@ body {
   background-color: #0b5ed7;
 }
 
-/* Texto de error */
+/* Texto de error  */
 .alert-danger {
   font-size: 0.9rem;
   padding: 8px;
@@ -51,56 +50,60 @@ body {
   margin-top: 20px;
 }
 
-/* ---- Estilo de las cartas ---- */
-
-.memory-card {
-  width: var(--card-w);
-  height: var(--card-h);
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.6s ease;
-  border-radius: var(--card-radius);
-  cursor: pointer;
+/* Ajustes puntuales para el perfil */
+.stat-card {
+  border-radius: 12px;
+  padding: 1rem;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+.small-label {
+  font-size: 0.8rem;
+  color: #666;
+}
+.table-wrapper {
+  overflow-x: auto;
 }
 
-/* Hover con sombra */
+/* ---- Estilo de las cartas ----  */
+
+.memory-card {
+  width: 100px; /* o el tamaño que uses */
+  height: 100px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: auto;
+}
+
 .memory-card:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
-
-/* Ambas caras de la carta */
 .memory-card .front-face,
 .memory-card .back-face {
+  position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: var(--card-radius);
-  position: absolute;
+  border-radius: 10px;
   backface-visibility: hidden;
 }
 
-/* Cara frontal (imagen) */
 .memory-card .front-face {
-  transform: rotateY(0deg);
+  transform: rotateY(180deg);
   z-index: 2;
-  background-color: #fff;
+  background-color: #fff; /* o el que uses */
 }
 
-
-/* Cara trasera (color azul por defecto) */
 .memory-card .back-face {
-  transform: rotateY(180deg);
-  background-color: var(--card-blue);
+  transform: rotateY(0deg);
+  background-color: #0d6efd; /* o tu color */
   z-index: 1;
 }
 
-/* Cuando se voltea la carta al hacer match o clic */
 .memory-card.is-flipped {
-  transform: rotateY(180deg);
-}
-
-/* Mostrar todas las cartas al inicio */
-.memory-card.volteada {
   transform: rotateY(180deg);
 }

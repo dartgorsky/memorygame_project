@@ -8,47 +8,56 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- CSS personalizado -->
-  <link rel="stylesheet" href="{% static 'app_memorygame/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'app_memorygame/css/estilos.css' %}">
 </head>
 
-<body>
+<body data-resultado="{{ resultado|default:'' }}">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+    <div class="d-flex gap-2">
+      <a href="{% url 'menu' %}" class="btn btn-outline-secondary btn-sm">Volver al Menú</a>
+    </div>
+  </nav>
 
   <div class="container py-4">
 
     <!-- Título del juego -->
-    <h2 class="text-center mb-4">MEMORY GAME- NIVEL {{ juego.level|default:"Básico" }}</h2>
+    <h2 class="text-center mb-4">MEMORY GAME - NIVEL {{ juego.level|default:"Básico" }}</h2>
 
     <!-- Información del usuario y estadísticas básicas -->
     <div class="mb-3 d-flex justify-content-between">
       <div>
-        <strong>Jugador:</strong> {{ request.user.username }}
-        <strong>Tiempo restante:</strong> <span id="timer">{{ tiempo_total }}</span> segundos
+        <strong>JUGADOR:</strong> {{ request.user.username }}
+        <strong>TIEMPO RESTANTE:</strong> <span id="timer">{{ tiempo_total }}</span> SEGUNDOS
       </div>
       <div>
-        <strong>Puntaje:</strong> <span id="puntos">{{ juego.score|default:"0" }}</span> &nbsp;&nbsp;
-        <strong>Intentos:</strong> <span id="intentos">{{ juego.attempts|default:"0" }}</span> &nbsp;&nbsp;
-        <strong>Vidas restantes:</strong> <span id="vidas">{{ vidas_restantes|default:"10" }}</span>
+        <strong>PUNTAJE:</strong> <span id="puntos">{{ juego.score|default:"0" }}</span> &nbsp;&nbsp;
+        <strong>INTENTOS:</strong> <span id="intentos">{{ juego.attempts|default:"0" }}</span> &nbsp;&nbsp;
+        <strong>VIDAS:</strong> <span id="vidas">{{ vidas_restantes|default:"10" }}</span>
       </div>
+      <form id="resultado-form" method="post" action="">
+        {% csrf_token %}
+        <input type="hidden" name="status" id="input-status" value="">
+        <input type="hidden" name="attempts" id="input-attempts" value="">
+        <input type="hidden" name="score" id="input-score" value="">
+      </form>
+
     </div>
 
     <!-- Tablero de cartas -->
     <div class="row row-cols-3 row-cols-md-4 row-cols-lg-6 g-3 justify-content-center">
       {% for carta in cartas %}
       <div class="col text-center">
-        <div class="memory-card" data-id="{{ carta.value }}">
+        <div class="memory-card" data-id="{{ carta.value }}" tabindex="0">
           <div class="front-face">
             <img src="{{ carta.image_url }}" alt="Carta {{ carta.name }}" class="img-fluid"
               style="border-radius: 10px; max-width: 100px;">
           </div>
-          <div class="back-face"></div>
+          <div class="back-face">
+            ?
+          </div>
         </div>
       </div>
       {% endfor %}
-    </div>
-
-    <!-- Botón para volver al menú -->
-    <div class="text-center mt-4">
-      <a href="{% url 'menu' %}" class="btn btn-secondary">Volver al Menú</a>
     </div>
 
   </div>
@@ -89,7 +98,8 @@
 
 
 
-  <!-- Bootstrap JS -->
+
+  <!-- Bootstrap JS  -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- Aquí el script para la lógica y animaciones -->

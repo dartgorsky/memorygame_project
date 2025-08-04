@@ -5,9 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const intentosSpan = document.getElementById('intentos');
     const timerSpan = document.getElementById('timer');
 
+    const resultadoForm = document.getElementById('resultado-form');
+    const inputStatus = document.getElementById('input-status');
+    const inputAttempts = document.getElementById('input-attempts');
+    const inputScore = document.getElementById('input-score');
+
     let hasFlippedCard = false;
-    let lockBoard = false;
-    let firstCard, secondCard;
+    let lockBoard = false; // Inicia desbloqueado, sin preview
+    let firstCard = null;
+    let secondCard = null;
 
     let puntos = 0;
     let intentos = 0;
@@ -16,9 +22,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let pairsFound = 0;
 
-    // Temporizador
     let tiempoRestante = parseInt(timerSpan.textContent);
     let timerInterval;
+
+    let juegoTerminado = false;
+
+    function enviarResultado(status) {
+        if (juegoTerminado) return;
+        juegoTerminado = true;
+
+        inputStatus.value = status;
+        inputAttempts.value = intentos;
+        inputScore.value = puntos;
+
+        resultadoForm.submit();
+    }
 
     function mostrarModalPerdiste() {
         const modal = new bootstrap.Modal(document.getElementById('modalPerdiste'));
@@ -38,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
     function startTimer() {
         timerInterval = setInterval(() => {
             tiempoRestante--;
@@ -46,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (tiempoRestante <= 0) {
                 clearInterval(timerInterval);
-                mostrarModalPerdiste();
+                enviarResultado('L');
             }
         }, 1000);
     }
@@ -58,13 +75,11 @@ document.addEventListener('DOMContentLoaded', () => {
         this.classList.add('is-flipped');
 
         if (!hasFlippedCard) {
-            // Primer click
             hasFlippedCard = true;
             firstCard = this;
             return;
         }
 
-        // Segundo click
         secondCard = this;
         lockBoard = true;
 
@@ -78,33 +93,37 @@ document.addEventListener('DOMContentLoaded', () => {
         const isMatch = firstCard.dataset.id === secondCard.dataset.id;
 
         if (isMatch) {
-            // Coinciden
             puntos++;
             puntosSpan.textContent = puntos;
-
             pairsFound++;
 
             disableCards();
 
+            resetBoard();
+
             if (pairsFound === totalPairs) {
                 clearInterval(timerInterval);
-                setTimeout(() => mostrarModalVictoria(), 500);
+                setTimeout(() => enviarResultado('W'), 500);
+            } else {
+                lockBoard = false;
             }
-
-            resetBoard();
         } else {
-            // No coinciden
             vidas--;
             vidasSpan.textContent = vidas;
 
             setTimeout(() => {
-                unflipCards();
+                firstCard.classList.remove('is-flipped');
+                secondCard.classList.remove('is-flipped');
+
+                resetBoard();
 
                 if (vidas <= 0) {
                     clearInterval(timerInterval);
-                    mostrarModalPerdiste();
+                    enviarResultado('L');
+                } else {
+                    lockBoard = false;
                 }
-            }, 1000);
+            }, 1200);
         }
     }
 
@@ -113,57 +132,19 @@ document.addEventListener('DOMContentLoaded', () => {
         secondCard.removeEventListener('click', flipCard);
     }
 
-    function unflipCards() {
-        firstCard.classList.remove('is-flipped');
-        secondCard.classList.remove('is-flipped');
-        resetBoard();
-    }
-
     function resetBoard() {
         [hasFlippedCard, lockBoard] = [false, false];
         [firstCard, secondCard] = [null, null];
     }
 
-    function resetGame() {
-        location.reload();
-    }
-
-    // Mostrar todas las cartas volteadas durante 5 segundos antes de empezar
-    cards.forEach(card => {
-        card.classList.add('is-flipped');
-    });
-
-    // Desactivar clics hasta que pasen los 5 segundos
-    lockBoard = true;
-
-    setTimeout(() => {
-        // Voltear todas las cartas de nuevo
-        cards.forEach(card => {
-            card.classList.remove('is-flipped');
-        });
-
-        // Activar clics
-        lockBoard = false;
-
-        // Empezar el temporizador
-        startTimer();
-    }, 5000);
-
-    // Mostrar todas las cartas volteadas al inicio durante 5 segundos
-    document.addEventListener('DOMContentLoaded', () => {
-        const todasLasCartas = document.querySelectorAll('.memory-card');
-
-        // Voltea todas temporalmente
-        todasLasCartas.forEach(card => card.classList.add('volteada'));
-
-        // A los 5 segundos, las desvoltea
-        setTimeout(() => {
-            todasLasCartas.forEach(card => card.classList.remove('volteada'));
-            // Aquí ya empieza el juego
-        }, 5000);
-    });
-
-
-    // Añadir event listeners
+    // Iniciar temporizador y eventos click sin preview
+    startTimer();
     cards.forEach(card => card.addEventListener('click', flipCard));
+
+    const resultadoServidor = document.body.dataset.resultado;
+    if (resultadoServidor === 'W') {
+        mostrarModalVictoria();
+    } else if (resultadoServidor === 'L') {
+        mostrarModalPerdiste();
+    }
 });

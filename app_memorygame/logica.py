@@ -1,4 +1,4 @@
-from app_memorygame.models import Game, Card
+from app_memorygame.models import Game, Card, Statistic
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 import random
@@ -33,7 +33,7 @@ def iniciar_partida(user, nivel='B'):
     random.shuffle(seleccionadas)
 
     # Crea la partida con el usuario y nivel
-    juego=Game.objects.create(user=user, level=nivel)
+    juego=Game.objects.create(user=user, level=nivel, max_attempts=vidas)
     juego.cards.set(cartas_para_jugar)
     juego.save()
     return juego
@@ -63,6 +63,24 @@ def registrar_intento(juego, carta1, carta2):
     revisar_estado_juego(juego)
 
 # --------------------------------------------------
+# Actualiza estadísticas del usuario
+# --------------------------------------------------
+def actualizar_estadisticas(usuario, gano, puntaje):
+    estadistica, creado = Statistic.objects.get_or_create(user=usuario)
+    estadistica.total_games += 1
+
+    if gano:
+        estadistica.wins += 1
+    else:
+        estadistica.losses += 1
+
+    estadistica.average_score = (
+        (estadistica.average_score * (estadistica.total_games - 1) + puntaje)
+        / estadistica.total_games
+    )
+    estadistica.save()
+
+# --------------------------------------------------
 # Revisa si el usuario ganó, perdió o sigue jugando
 # Aplica un bono de puntaje si gana (vidas restantes * 10)
 # --------------------------------------------------
@@ -73,14 +91,18 @@ def revisar_estado_juego(juego):
         juego.status= 'W'  # Win
         juego.end_time= now()
 
-        # Bono adicional por vidas restantes
-        vidas_restantes=max(vidas-juego.attempts, 0)
-        juego.score+= vidas_restantes*10
+        # Actualiza estadísticas: ganó y puntaje final
+        actualizar_estadisticas(juego.user, True, juego.score)
 
-    elif juego.attempts>= vidas:
+    elif juego.attempts >= juego.max_attempts:
         juego.status= 'L'  # Lose
         juego.end_time= now()
+        juego.save()
+
+        # Actualiza estadísticas: ganó y puntaje final
+        actualizar_estadisticas(juego.user, False, juego.score)
     else:
         juego.status= 'P'  # Playing
+        juego.save()
 
-    juego.save()
+    

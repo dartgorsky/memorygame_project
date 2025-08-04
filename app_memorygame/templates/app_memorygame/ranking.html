@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Ranking por Nivel - MemoryGame</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'menu' %}">MemoryGame</a>
+      <a href="{% url 'menu' %}" class="btn btn-outline-secondary btn-sm">Regresar al Menú</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <h2 class="mb-4">Ranking por Nivel</h2>
+
+    {% for nivel, partidas in ranking.items %}
+    <h3>{{ nivel }}</h3>
+    {% if partidas %}
+    <table class="table table-striped table-bordered bg-white mb-5">
+      <thead class="table-light">
+        <tr>
+          <th>#</th>
+          <th>Usuario</th>
+          <th>Puntaje</th>
+          <th>Tiempo (s)</th>
+          <th>Intentos</th>
+          <th>Vidas restantes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for juego in partidas %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ juego.user.username }}</td>
+          <td>{{ juego.score }}</td>
+          <td>{{ juego.duracion_segundos }}s</td>
+          <td>{{ juego.attempts }}</td>
+          <td>{% if juego.vidas_restantes is not None %}{{ juego.vidas_restantes }}{% else %}0{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>No hay partidas ganadoras en este nivel.</p>
+    {% endif %}
+    {% endfor %}
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
