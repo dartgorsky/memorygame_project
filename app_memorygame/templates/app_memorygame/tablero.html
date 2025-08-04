@@ -96,8 +96,25 @@
     </div>
   </div>
 
-
-
+  <!-- Modal Confirmar Salida -->
+  <div class="modal fade" id="modalConfirmarSalida" tabindex="-1" aria-labelledby="modalConfirmarSalidaLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalConfirmarSalidaLabel">¿Seguro que quieres salir?</h5>
+        </div>
+        <div class="modal-body">
+          Si sales ahora, la partida contará como derrota.
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" id="btnCancelarSalida" class="btn btn-secondary"
+            data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btnConfirmarSalida" class="btn btn-danger">Salir y Perder</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Bootstrap JS  -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

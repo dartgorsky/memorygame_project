@@ -19,6 +19,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.modal-content {
+  color: #000000; /* color blanco */
+}
+
 /* Tarjetas de formularios (login, registro, etc.)  */
 .card {
   border-radius: 15px;

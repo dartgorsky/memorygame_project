@@ -9,9 +9,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputStatus = document.getElementById('input-status');
     const inputAttempts = document.getElementById('input-attempts');
     const inputScore = document.getElementById('input-score');
+    const resultadoServidor = document.body.dataset.resultado;
+
+    const btnVolverMenu = document.querySelector('a.btn.btn-outline-secondary');
+    const modalConfirmarSalida = new bootstrap.Modal(document.getElementById('modalConfirmarSalida'));
+    const btnConfirmarSalida = document.getElementById('btnConfirmarSalida');
+    const btnCancelarSalida = document.getElementById('btnCancelarSalida');
 
     let hasFlippedCard = false;
-    let lockBoard = false; // Inicia desbloqueado, sin preview
+    let lockBoard = false;
     let firstCard = null;
     let secondCard = null;
 
@@ -19,14 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let intentos = 0;
     let vidas = parseInt(vidasSpan.textContent);
     const totalPairs = cards.length / 2;
-
     let pairsFound = 0;
 
     let tiempoRestante = parseInt(timerSpan.textContent);
     let timerInterval;
-
     let juegoTerminado = false;
 
+    // Función para enviar resultado
     function enviarResultado(status) {
         if (juegoTerminado) return;
         juegoTerminado = true;
@@ -38,10 +43,30 @@ document.addEventListener('DOMContentLoaded', () => {
         resultadoForm.submit();
     }
 
+    // Si se hace clic en "Volver al Menú" y no ha terminado, marcar derrota
+     if (btnVolverMenu) {
+        btnVolverMenu.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!juegoTerminado) {
+                modalConfirmarSalida.show();
+            } else {
+                window.location.href = btnVolverMenu.href;
+            }
+        });
+    }
+
+    btnConfirmarSalida.addEventListener('click', () => {
+        modalConfirmarSalida.hide();
+        enviarResultado('L');
+    });
+
+    btnCancelarSalida.addEventListener('click', () => {
+        modalConfirmarSalida.hide();
+    });
+
     function mostrarModalPerdiste() {
         const modal = new bootstrap.Modal(document.getElementById('modalPerdiste'));
         modal.show();
-
         document.getElementById('btnVolverMenu').addEventListener('click', () => {
             window.location.href = '/menu';
         });
@@ -50,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function mostrarModalVictoria() {
         const modal = new bootstrap.Modal(document.getElementById('modalVictoria'));
         modal.show();
-
         document.getElementById('btnVolverMenuVictoria').addEventListener('click', () => {
             window.location.href = '/menu';
         });
@@ -69,8 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function flipCard() {
-        if (lockBoard) return;
-        if (this === firstCard) return;
+        if (lockBoard || this === firstCard) return;
 
         this.classList.add('is-flipped');
 
@@ -82,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         secondCard = this;
         lockBoard = true;
-
         checkForMatch();
     }
 
@@ -96,9 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             puntos++;
             puntosSpan.textContent = puntos;
             pairsFound++;
-
             disableCards();
-
             resetBoard();
 
             if (pairsFound === totalPairs) {
@@ -110,11 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             vidas--;
             vidasSpan.textContent = vidas;
-
             setTimeout(() => {
                 firstCard.classList.remove('is-flipped');
                 secondCard.classList.remove('is-flipped');
-
                 resetBoard();
 
                 if (vidas <= 0) {
@@ -137,7 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
         [firstCard, secondCard] = [null, null];
     }
 
-    const resultadoServidor = document.body.dataset.resultado;
     if (resultadoServidor === 'W') {
         mostrarModalVictoria();
     } else if (resultadoServidor === 'L') {
@@ -145,25 +162,16 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         // Vista previa de 5 segundos antes de que empiece la partida
         function showPreview() {
-            lockBoard = true; // bloquea interacciones durante preview
-            // Muestra todas las cartas
+            lockBoard = true;
             cards.forEach(card => card.classList.add('is-flipped'));
-
             setTimeout(() => {
-                // Oculta todas las cartas
                 cards.forEach(card => card.classList.remove('is-flipped'));
-
-                // Permite interacciones y arranca el juego
                 lockBoard = false;
                 cards.forEach(card => card.addEventListener('click', flipCard));
-
-                // Asegurarse de no tener otro intervalo activo
                 if (timerInterval) clearInterval(timerInterval);
                 startTimer();
             }, 5000);
         }
-
         showPreview();
     }
-
 });
