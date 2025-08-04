@@ -27,12 +27,12 @@
     <div class="mb-3 d-flex justify-content-between">
       <div>
         <strong>JUGADOR:</strong> {{ request.user.username }}
-        <strong>TIEMPO RESTANTE:</strong> <span id="timer">{{ tiempo_total }}</span> SEGUNDOS
       </div>
       <div>
         <strong>PUNTAJE:</strong> <span id="puntos">{{ juego.score|default:"0" }}</span> &nbsp;&nbsp;
         <strong>INTENTOS:</strong> <span id="intentos">{{ juego.attempts|default:"0" }}</span> &nbsp;&nbsp;
-        <strong>VIDAS:</strong> <span id="vidas">{{ vidas_restantes|default:"10" }}</span>
+        <strong>VIDAS:</strong> <span id="vidas">{{ vidas_restantes|default:"10" }}</span>&nbsp;&nbsp;
+        <strong>TIEMPO RESTANTE:</strong> <span id="timer">{{ tiempo_total }}</span> SEGUNDOS
       </div>
       <form id="resultado-form" method="post" action="">
         {% csrf_token %}
