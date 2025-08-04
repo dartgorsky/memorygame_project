@@ -8,7 +8,12 @@ root {
 
 /* Fondo suave y legible */
 body {
-  background: linear-gradient(to bottom right, #f0f4f8, #d9e2ec);
+  min-height: 100vh;
+  margin: 0;
+  background: radial-gradient(circle at 30% 30%, #2f3e72 0%, #1f2a44 70%) fixed;
+  color: #eef3fa;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Tarjetas de formularios (login, registro, etc.)  */
@@ -57,10 +62,12 @@ body {
   background: #fff;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
+
 .small-label {
   font-size: 0.8rem;
   color: #666;
 }
+
 .table-wrapper {
   overflow-x: auto;
 }
@@ -68,7 +75,8 @@ body {
 /* ---- Estilo de las cartas ----  */
 
 .memory-card {
-  width: 100px; /* o el tamaño que uses */
+  width: 100px;
+  /* o el tamaño que uses */
   height: 100px;
   position: relative;
   transform-style: preserve-3d;
@@ -95,12 +103,14 @@ body {
 .memory-card .front-face {
   transform: rotateY(180deg);
   z-index: 2;
-  background-color: #fff; /* o el que uses */
+  background-color: #fff;
+  /* o el que uses */
 }
 
 .memory-card .back-face {
   transform: rotateY(0deg);
-  background-color: #0d6efd; /* o tu color */
+  background-color: #0d6efd;
+  /* o tu color */
   z-index: 1;
 }
 

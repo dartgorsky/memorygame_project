@@ -137,14 +137,33 @@ document.addEventListener('DOMContentLoaded', () => {
         [firstCard, secondCard] = [null, null];
     }
 
-    // Iniciar temporizador y eventos click sin preview
-    startTimer();
-    cards.forEach(card => card.addEventListener('click', flipCard));
-
     const resultadoServidor = document.body.dataset.resultado;
     if (resultadoServidor === 'W') {
         mostrarModalVictoria();
     } else if (resultadoServidor === 'L') {
         mostrarModalPerdiste();
+    } else {
+        // Vista previa de 5 segundos antes de que empiece la partida
+        function showPreview() {
+            lockBoard = true; // bloquea interacciones durante preview
+            // Muestra todas las cartas
+            cards.forEach(card => card.classList.add('is-flipped'));
+
+            setTimeout(() => {
+                // Oculta todas las cartas
+                cards.forEach(card => card.classList.remove('is-flipped'));
+
+                // Permite interacciones y arranca el juego
+                lockBoard = false;
+                cards.forEach(card => card.addEventListener('click', flipCard));
+
+                // Asegurarse de no tener otro intervalo activo
+                if (timerInterval) clearInterval(timerInterval);
+                startTimer();
+            }, 5000);
+        }
+
+        showPreview();
     }
+
 });
