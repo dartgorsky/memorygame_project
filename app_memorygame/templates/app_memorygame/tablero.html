@@ -11,10 +11,14 @@
   <link rel="stylesheet" href="{% static 'app_memorygame/css/estilos.css' %}">
 </head>
 
+
 <body data-resultado="{{ resultado|default:'' }}">
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
-    <div class="d-flex gap-2">
-      <a href="{% url 'menu' %}" class="btn btn-outline-secondary btn-sm">Volver al Menú</a>
+    <div class="container">
+      <a> </a>
+      <div class="d-flex gap-2">
+        <a href="{% url 'menu' %}" class="btn btn-outline-secondary btn-sm">Volver al Menú</a>
+      </div>
     </div>
   </nav>
 

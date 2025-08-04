@@ -20,7 +20,8 @@ body {
 }
 
 .modal-content {
-  color: #000000; /* color blanco */
+  color: #000000;
+  /* color blanco */
 }
 
 /* Tarjetas de formularios (login, registro, etc.)  */
@@ -118,8 +119,14 @@ body {
 .memory-card .back-face {
   transform: rotateY(0deg);
   background-color: #0d6efd;
-  /* o tu color */
   z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  user-select: none;
 }
 
 .memory-card.is-flipped {
