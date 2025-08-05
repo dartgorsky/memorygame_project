@@ -8,14 +8,14 @@ import random
 # Devuelve: (cantidad de pares, vidas máximas)
 # --------------------------------------------------
 def obtener_configuracion(nivel):
-    if nivel=='B':  # Nivel Básico
-        return 6, 10
-    elif nivel=='M':  # Nivel Medio
-        return 8, 5
-    elif nivel=='A':  # Nivel Avanzado
-        return 10, 3
-    else:  # Valor por defecto
-        return 6, 10
+    if nivel == 'B':  # Básico
+        return 8, 6
+    elif nivel == 'M':  # Medio
+        return 8, 4
+    elif nivel == 'A':  # Avanzado
+        return 8, 2
+    else:
+        return 8, 6  # Por defecto: básico
 
 # --------------------------------------------------
 # Inicia una partida nueva para un usuario
@@ -29,8 +29,8 @@ def iniciar_partida(user, nivel='B'):
     seleccionadas=random.sample(todas_las_cartas, cantidad_pares)
 
     # Duplica las cartas para hacer pares y las mezcla
-    cartas_para_jugar=seleccionadas*2
-    random.shuffle(seleccionadas)
+    cartas_para_jugar = seleccionadas * 2
+    random.shuffle(cartas_para_jugar)
 
     # Crea la partida con el usuario y nivel
     juego=Game.objects.create(user=user, level=nivel, max_attempts=vidas)

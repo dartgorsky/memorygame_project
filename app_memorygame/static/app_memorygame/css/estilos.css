@@ -85,7 +85,6 @@ body {
 
 .memory-card {
   width: 100px;
-  /* o el tamaño que uses */
   height: 100px;
   position: relative;
   transform-style: preserve-3d;

@@ -1,12 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import RegistroForm, LoginForm
-from .logica import iniciar_partida
-from .models import Game, Card
+from .logica import iniciar_partida, obtener_configuracion, actualizar_estadisticas
+from .models import Game
 from django.utils.timezone import now
-from .logica import registrar_intento, obtener_configuracion, actualizar_estadisticas
 import random
 from django.db.models import F, ExpressionWrapper, DurationField
 from django.db.models.functions import Coalesce, Now
@@ -45,6 +43,7 @@ def logout_view(request):
 def menu_view(request):
     return render(request, 'app_memorygame/menu.html')
 
+# Selección de nivel y creación de partida
 @login_required
 def seleccionar_nivel_view(request):
     if request.method == 'POST':
@@ -54,6 +53,7 @@ def seleccionar_nivel_view(request):
     else:
         return redirect('menu')
 
+# Vista del tablero del juego 
 @login_required
 def tablero_view(request, juego_id):
     juego = get_object_or_404(Game, id=juego_id, user=request.user)
@@ -90,14 +90,11 @@ def tablero_view(request, juego_id):
         cartas_para_mostrar = cartas_unicas * 2
         random.shuffle(cartas_para_mostrar)
 
-        tiempos_por_nivel = {'B': 120, 'M': 240, 'A': 300}
-        tiempo_total = tiempos_por_nivel.get(juego.level, 120)
-
         return render(request, 'app_memorygame/tablero.html', {
             'juego': juego,
             'vidas_restantes': vidas_restantes,
             'cartas': cartas_para_mostrar,
-            'tiempo_total': tiempo_total,
+            'tiempo_total': 60,
             'resultado': status,  # Para mostrar modal en JS
         })
 
@@ -109,17 +106,15 @@ def tablero_view(request, juego_id):
     cartas_para_mostrar = cartas_unicas * 2
     random.shuffle(cartas_para_mostrar)
 
-    tiempos_por_nivel = {'B': 120, 'M': 240, 'A': 300}
-    tiempo_total = tiempos_por_nivel.get(juego.level, 120)
-
     return render(request, 'app_memorygame/tablero.html', {
         'juego': juego,
         'vidas_restantes': vidas_restantes,
         'cartas': cartas_para_mostrar,
-        'tiempo_total': tiempo_total,
+        'tiempo_total': 60,
         'resultado': '',  # No hay resultado aún
     })
 
+# Perfil del usuario: estadísticas y últimas partidas
 @login_required
 def perfil_usuario_view(request):
     user = request.user
@@ -148,6 +143,7 @@ def perfil_usuario_view(request):
     }
     return render(request, 'app_memorygame/perfil.html', contexto)
 
+# Ranking de mejores partidas por nivel
 @login_required
 def ranking_view(request):
     niveles = {

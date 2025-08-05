@@ -27,7 +27,7 @@
     <div class="d-flex flex-column flex-md-row gap-4">
       <!-- Estadísticas generales -->
       <div class="col-md-4 stat-card">
-        <h3 class="mb-3">{{ request.user.username }}</h3><br> 
+        <h3 class="mb-3">{{ request.user.username }}</h3><br>
         {% if stats %}
         <div class="mb-2">
           <div><span class="fw-bold">Total de partidas:</span> {{ stats.total_games }} <br> <br></div>
@@ -36,6 +36,12 @@
           <div><span class="fw-bold">Puntaje promedio:</span> {{ stats.average_score|floatformat:1 }}<br> <br></div>
           {% if tasa_exito is not None %}
           <div><span class="fw-bold">Tasa de éxito:</span> {{ tasa_exito }}%</div>
+          {% endif %}
+          {% if promedio_tiempo %}
+          <div><span class="fw-bold">Promedio de tiempo por partida:</span> {{ promedio_tiempo }} s <br><br></div>
+          {% endif %}
+          {% if nivel_mas_jugado %}
+          <div><span class="fw-bold">Nivel más jugado:</span> {{ nivel_mas_jugado }}</div>
           {% endif %}
         </div>
         {% else %}
@@ -83,8 +89,9 @@
       </div>
     </div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>

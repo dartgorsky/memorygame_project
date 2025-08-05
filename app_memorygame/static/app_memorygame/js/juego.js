@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnConfirmarSalida = document.getElementById('btnConfirmarSalida');
     const btnCancelarSalida = document.getElementById('btnCancelarSalida');
 
+    const audioWin = new Audio('/static/app_memorygame/sonidos/win.mp3');
+    const audioLose = new Audio('/static/app_memorygame/sonidos/lose.mp3');
+
     let hasFlippedCard = false;
     let lockBoard = false;
     let firstCard = null;
@@ -30,6 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let tiempoRestante = parseInt(timerSpan.textContent);
     let timerInterval;
     let juegoTerminado = false;
+
+    [audioWin, audioLose].forEach(a => {
+        a.preload = 'auto';
+        a.volume = 0.6;
+        a.load();
+    });
 
     // Función para enviar resultado
     function enviarResultado(status) {
@@ -67,6 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function mostrarModalPerdiste() {
         const modal = new bootstrap.Modal(document.getElementById('modalPerdiste'));
         modal.show();
+        audioLose.currentTime = 0;
+        audioLose.play().catch(() => {});
         document.getElementById('btnVolverMenu').addEventListener('click', () => {
             window.location.href = '/menu';
         });
@@ -75,6 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function mostrarModalVictoria() {
         const modal = new bootstrap.Modal(document.getElementById('modalVictoria'));
         modal.show();
+        audioWin.currentTime = 0;
+        audioWin.play().catch(() => {});
         document.getElementById('btnVolverMenuVictoria').addEventListener('click', () => {
             window.location.href = '/menu';
         });

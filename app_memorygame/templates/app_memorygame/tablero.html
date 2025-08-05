@@ -15,7 +15,7 @@
 <body data-resultado="{{ resultado|default:'' }}">
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
     <div class="container">
-      <a> </a>
+      <a ></a>
       <div class="d-flex gap-2">
         <a href="{% url 'menu' %}" class="btn btn-outline-secondary btn-sm">Volver al Menú</a>
       </div>
@@ -28,14 +28,14 @@
     <h2 class="text-center mb-4">MEMORY GAME - NIVEL {{ juego.level|default:"Básico" }}</h2>
 
     <!-- Información del usuario y estadísticas básicas -->
-    <div class="mb-3 d-flex justify-content-between">
+    <div class="d-flex justify-content-center gap-5 align-items-start">
       <div>
         <strong>JUGADOR:</strong> {{ request.user.username }}
       </div>
       <div>
         <strong>PUNTAJE:</strong> <span id="puntos">{{ juego.score|default:"0" }}</span> &nbsp;&nbsp;
         <strong>INTENTOS:</strong> <span id="intentos">{{ juego.attempts|default:"0" }}</span> &nbsp;&nbsp;
-        <strong>VIDAS:</strong> <span id="vidas">{{ vidas_restantes|default:"10" }}</span>&nbsp;&nbsp;
+        <strong>VIDAS:</strong> <span id="vidas">{{ vidas_restantes|default:"0" }}</span>&nbsp;&nbsp;
         <strong>TIEMPO RESTANTE:</strong> <span id="timer">{{ tiempo_total }}</span> SEGUNDOS
       </div>
       <form id="resultado-form" method="post" action="">
@@ -48,7 +48,7 @@
     </div>
 
     <!-- Tablero de cartas -->
-    <div class="row row-cols-3 row-cols-md-4 row-cols-lg-6 g-3 justify-content-center">
+    <div id="tablero-grid" class="d-grid gap-3 mx-auto" style="grid-template-columns: repeat(4, 1fr); width: fit-content;">
       {% for carta in cartas %}
       <div class="col text-center">
         <div class="memory-card" data-id="{{ carta.value }}" tabindex="0">
