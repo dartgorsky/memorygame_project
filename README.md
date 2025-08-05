@@ -4,7 +4,7 @@
 
 Memory Game es un juego web desarrollado con Django donde los usuarios pueden registrarse, iniciar sesión y jugar un clásico juego de memoria. El objetivo es encontrar pares de cartas iguales dentro de un tiempo y con un número limitado de intentos. El juego cuenta con diferentes niveles de dificultad y lleva un registro de las estadísticas personales y el ranking de los jugadores.
 
----
+
 
 ## Funcionalidades principales
 
@@ -16,7 +16,7 @@ Memory Game es un juego web desarrollado con Django donde los usuarios pueden re
 - Ranking público con los mejores puntajes por nivel.
 - Perfil de usuario con historial de partidas y estadísticas.
 
----
+
 
 ## Tecnologías usadas
 
@@ -26,7 +26,7 @@ Memory Game es un juego web desarrollado con Django donde los usuarios pueden re
 - Bootstrap 5 para el frontend
 - HTML, CSS, JavaScript para la interfaz de usuario
 
----
+
 
 ## Instalación
 
@@ -36,16 +36,24 @@ Memory Game es un juego web desarrollado con Django donde los usuarios pueden re
    git clone https://github.com/tu_usuario/memorygame.git
    cd memorygame
 
-2. Crear y activar entorno virtual
+2. Crear y activar entorno virtual:
+
+   ```bash
    python -m venv venv
    source venv/bin/activate  # Linux/macOS
    venv\Scripts\activate     # Windows
 
 3. Instalar dependencias:
+
+   ```bash
    pip install -r requirements.txt
 
 4. Aplicar migraciones:
+
+   ```bash
    python manage.py migrate
 
 5. Ejecutar el servidor:
+
+   ```bash
    python manage.py runserver
