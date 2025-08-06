@@ -57,3 +57,10 @@ Memory Game es un juego web desarrollado con Django donde los usuarios pueden re
 
    ```bash
    python manage.py runserver
+
+# Insert de imagenes SQL 
+
+1. Antes de iniciar una partida, debera ingresar al http://localhost:8080/ y en la tabla app_memorygame_card debera hacer la siguiente consulta SQL
+
+   ```bash
+   INSERT INTO app_memorygame_card (name, image_url, value) VALUES ('Estrella', 'https://raw.githubusercontent.com/dartgorsky/mis-svg/refs/heads/main/estrella.png', 1), ('Fresa', 'https://raw.githubusercontent.com/dartgorsky/mis-svg/refs/heads/main/fresa.png', 2), ('Gato', 'https://raw.githubusercontent.com/dartgorsky/mis-svg/refs/heads/main/gato.png', 3), ('Luna', 'https://raw.githubusercontent.com/dartgorsky/mis-svg/refs/heads/main/luna.png', 4), ('Oso', 'https://raw.githubusercontent.com/dartgorsky/mis-svg/refs/heads/main/oso.png', 5), ('Panda', 'https://raw.githubusercontent.com/dartgorsky/mis-svg/refs/heads/main/panda.png', 6), ('Perro', 'https://raw.githubusercontent.com/dartgorsky/mis-svg/refs/heads/main/perro.png', 7), ('Pinguino', 'https://raw.githubusercontent.com/dartgorsky/mis-svg/refs/heads/main/pinguino.png', 8), ('Rana', 'https://raw.githubusercontent.com/dartgorsky/mis-svg/refs/heads/main/rana.png', 9), ('Zorro', 'https://raw.githubusercontent.com/dartgorsky/mis-svg/refs/heads/main/zorro.png', 10);
