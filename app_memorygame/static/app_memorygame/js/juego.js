@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const audioWin = new Audio('/static/app_memorygame/sonidos/win.mp3');
     const audioLose = new Audio('/static/app_memorygame/sonidos/lose.mp3');
+    const bgMusic = document.getElementById('bg-music');
+
 
     let hasFlippedCard = false;
     let lockBoard = false;
@@ -33,6 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let tiempoRestante = parseInt(timerSpan.textContent);
     let timerInterval;
     let juegoTerminado = false;
+
+    if (bgMusic) {
+        bgMusic.volume = 0.3;  // volumen entre 0.0 y 1.0, 0.3 es bajo
+    }
 
     [audioWin, audioLose].forEach(a => {
         a.preload = 'auto';
@@ -53,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Si se hace clic en "Volver al Menú" y no ha terminado, marcar derrota
-     if (btnVolverMenu) {
+    if (btnVolverMenu) {
         btnVolverMenu.addEventListener('click', (e) => {
             e.preventDefault();
             if (!juegoTerminado) {
@@ -74,20 +80,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function mostrarModalPerdiste() {
+        if (bgMusic) {
+            bgMusic.pause();
+            bgMusic.currentTime = 0;
+        }
+
         const modal = new bootstrap.Modal(document.getElementById('modalPerdiste'));
         modal.show();
         audioLose.currentTime = 0;
-        audioLose.play().catch(() => {});
+        audioLose.play().catch(() => { });
         document.getElementById('btnVolverMenu').addEventListener('click', () => {
             window.location.href = '/menu';
         });
     }
 
     function mostrarModalVictoria() {
+        if (bgMusic) {
+            bgMusic.pause();
+            bgMusic.currentTime = 0;
+        }
+
         const modal = new bootstrap.Modal(document.getElementById('modalVictoria'));
         modal.show();
         audioWin.currentTime = 0;
-        audioWin.play().catch(() => {});
+        audioWin.play().catch(() => { });
         document.getElementById('btnVolverMenuVictoria').addEventListener('click', () => {
             window.location.href = '/menu';
         });

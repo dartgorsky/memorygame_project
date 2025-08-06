@@ -15,7 +15,7 @@
 <body data-resultado="{{ resultado|default:'' }}">
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
     <div class="container">
-      <a ></a>
+      <a></a>
       <div class="d-flex gap-2">
         <a href="{% url 'menu' %}" class="btn btn-outline-secondary btn-sm">Volver al Menú</a>
       </div>
@@ -48,7 +48,8 @@
     </div>
 
     <!-- Tablero de cartas -->
-    <div id="tablero-grid" class="d-grid gap-3 mx-auto" style="grid-template-columns: repeat(4, 1fr); width: fit-content;">
+    <div id="tablero-grid" class="d-grid gap-3 mx-auto"
+      style="grid-template-columns: repeat(4, 1fr); width: fit-content;">
       {% for carta in cartas %}
       <div class="col text-center">
         <div class="memory-card" data-id="{{ carta.value }}" tabindex="0">
@@ -125,6 +126,17 @@
 
   <!-- Aquí el script para la lógica y animaciones -->
   <script src="{% static 'app_memorygame/js/juego.js' %}"></script>
+
+  <audio id="bg-music" autoplay loop>
+    {% if juego.level == 'B' %}
+    <source src="{% static 'app_memorygame/sonidos/facil.mp3' %}" type="audio/mpeg">
+    {% elif juego.level == 'M' %}
+    <source src="{% static 'app_memorygame/sonidos/medio.mp3' %}" type="audio/mpeg">
+    {% elif juego.level == 'A' %}
+    <source src="{% static 'app_memorygame/sonidos/avanzado.mp3' %}" type="audio/mpeg">
+    {% endif %}
+  </audio>
+
 
 </body>
 
