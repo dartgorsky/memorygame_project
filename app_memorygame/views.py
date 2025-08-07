@@ -95,7 +95,7 @@ def tablero_view(request, juego_id):
             'vidas_restantes': vidas_restantes,
             'cartas': cartas_para_mostrar,
             'tiempo_total': 60,
-            'resultado': status,  # Para mostrar modal en JS
+            'resultado': status,  
         })
 
     # GET: Mostrar el tablero para jugar
@@ -111,7 +111,7 @@ def tablero_view(request, juego_id):
         'vidas_restantes': vidas_restantes,
         'cartas': cartas_para_mostrar,
         'tiempo_total': 60,
-        'resultado': '',  # No hay resultado aún
+        'resultado': '', 
     })
 
 # Perfil del usuario: estadísticas y últimas partidas
@@ -139,7 +139,7 @@ def perfil_usuario_view(request):
     contexto = {
         'stats': stats,
         'ultimas_partidas': ultimas_partidas,
-        'tasa_exito': tasa_exito,  # Enviamos la tasa ya calculada
+        'tasa_exito': tasa_exito, 
     }
     return render(request, 'app_memorygame/perfil.html', contexto)
 
