@@ -57,7 +57,6 @@ def registrar_intento(juego, carta1, carta2):
 
     if verificar_emparejamiento(carta1, carta2):
         juego.score += 1
-        # Ya no guardamos "matched" porque no existe ese campo
 
     juego.save()
     revisar_estado_juego(juego)
